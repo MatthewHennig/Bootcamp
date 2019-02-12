@@ -3,7 +3,7 @@
 
 module.exports = {
   db: {
-    uri: '', //place the URI of your mongo database here.
+    uri: 'mongodb://user:password1@ds331135.mlab.com:31135/mhbootcamp4', //place the URI of your mongo database here.
   }, 
   port: 8080
 };

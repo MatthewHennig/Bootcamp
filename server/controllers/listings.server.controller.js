@@ -1,4 +1,3 @@
-
 /* Dependencies */
 var mongoose = require('mongoose'), 
     Listing = require('../models/listings.server.model.js');
@@ -17,7 +16,6 @@ exports.create = function(req, res) {
 
   /* Instantiate a Listing */
   var listing = new Listing(req.body);
-
 
   /* Then save the listing */
   listing.save(function(err) {
@@ -39,24 +37,62 @@ exports.read = function(req, res) {
 /* Update a listing */
 exports.update = function(req, res) {
   var listing = req.listing;
-
   /** TODO **/
   /* Replace the article's properties with the new properties found in req.body */
   /* Save the article */
+  listing.code = req.body.code;
+  listing.name = req.body.name;
+  listing.address = req.body.address;
+  listing.coordinates = 
+  {
+	latitude:req.body.lat,
+	longitude:req.body.lng
+  };
+  
+  listing.save(function(err) {
+    if(err) {
+      console.log(err);
+      res.status(400).send(err);
+    } else {
+      res.json(listing);
+    }
+  });
 };
 
 /* Delete a listing */
 exports.delete = function(req, res) {
   var listing = req.listing;
-
   /** TODO **/
   /* Remove the article */
+	Listing.remove(listing,function(err) 
+	{
+		if (err)
+		{
+			res.status(404).send(err);
+		}
+		else
+		{
+			res.end();
+		}
+	});
 };
 
 /* Retreive all the directory listings, sorted alphabetically by listing code */
 exports.list = function(req, res) {
   /** TODO **/
   /* Your code here */
+  Listing.find({}, function(err, listings) 
+  {
+	  if (err)
+		{
+			//console.log(err);
+			res.status(404).send(err);
+		}
+		else
+		{
+			res.send(listings);
+		}
+  });
 };
 
 /* 

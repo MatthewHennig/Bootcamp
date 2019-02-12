@@ -13,7 +13,21 @@ angular.module('listings').controller('ListingsController', ['$scope', 'Listings
 	  /**TODO 
 	  *Save the article using the Listings factory. If the object is successfully 
 	  saved redirect back to the list page. Otherwise, display the error
-	 */
+	 */    
+		$scope.templisting = new Object();
+        $scope.templisting.code = $scope.newListing.code;
+        $scope.templisting.name = $scope.newListing.name;
+        $scope.templisting.address = $scope.newListing.address;
+        $scope.templisting.coordinates = new Object();
+        $scope.templisting.coordinates.latitude = $scope.newListing.lat;
+        $scope.templisting.coordinates.longitude = $scope.newListing.long;
+		$scope.listings.push($scope.templisting);
+		Listings.create(templisting);
+	  if(err)
+	  {
+      console.log(err);
+      res.status(400).send(err);
+	  }
     };
 
     $scope.deleteListing = function(id) {
@@ -21,6 +35,8 @@ angular.module('listings').controller('ListingsController', ['$scope', 'Listings
         Delete the article using the Listings factory. If the removal is successful, 
 		navigate back to 'listing.list'. Otherwise, display the error. 
        */
+		$scope.listings.splice(id,1);
+		Listing.delete(index);
     };
 
     $scope.showDetails = function(index) {
